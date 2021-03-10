@@ -33,8 +33,8 @@ def send_and_listen(packet, ip):
                 pass
 
 def main():
-    ip_network = args.ip_network #enter IP address range in CIDR notation (e.g. 192.168.1.0/24)
-    my_ip = args.my_ip #my_ip
+    ip_network = "192.168.1.0" #enter IP address range in CIDR notation (e.g. 192.168.1.0/24)
+    my_ip = "192.168.1.103" #my_ip
 
     while 1: 
         for ip in ipaddress.IPv4Network(ip_network):
